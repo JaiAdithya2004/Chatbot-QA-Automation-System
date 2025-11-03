@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+.python-version
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.cursor/
+
+# Streamlit / App artifacts
+.streamlit/secrets.toml
+# Logs and app outputs
+test_results.csv
+
+# Environment files
+.env
+
+# Node (just in case)
+node_modules/
+
+# Caches
+.cache/
+
