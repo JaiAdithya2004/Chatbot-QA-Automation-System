@@ -9,20 +9,15 @@ from services.mock_service import mock_chatbot_response
 from services.gemini_service import get_gemini_response
 from services.logging_service import log_result
 
-# Load environment variables from .env if present
 load_dotenv()
 
-# ------------------------------
-# CONFIGURATION
-# ------------------------------
+
 st.set_page_config(page_title="Chatbot Flow Validator", layout="wide")
 
 st.title(" Chatbot Flow Validator")
 st.markdown("Validate chatbot responses, log results, and generate QA reports easily.")
 
-# ------------------------------
-# SIDEBAR INPUTS
-# ------------------------------
+
 st.sidebar.header(" Test Setup")
 use_mock_api = st.sidebar.checkbox("Use Mock Responses (No API key needed)", value=True)
 if not use_mock_api:
@@ -39,10 +34,10 @@ if not use_mock_api:
         configured = True
         source = "sidebar"
     else:
-        # Fallback: Streamlit secrets, then environment variable
+        
         secret_key = None
         try:
-            secret_key = st.secrets.get("GEMINI_API_KEY")  # requires .streamlit/secrets.toml
+            secret_key = st.secrets.get("GEMINI_API_KEY")  
             if secret_key:
                 genai.configure(api_key=secret_key)
                 configured = True
@@ -60,11 +55,7 @@ if not use_mock_api:
     else:
         st.sidebar.warning("No API key found. Enter one or enable mock mode.")
 
-## Services moved to services/ package
 
-# ------------------------------
-# MAIN TEST FORM
-# ------------------------------
 st.subheader("Run Chat Flow Test")
 
 with st.form("chat_form"):
@@ -96,9 +87,7 @@ if submit_btn:
             st.write("**Actual Response:**")
             st.info(actual)
 
-# ------------------------------
-# QA SUMMARY SECTION
-# ------------------------------
+
 st.subheader("QA Summary")
 
 try:
@@ -118,7 +107,7 @@ try:
     with col3:
         st.metric("Failed", failed)
 
-    # Optional: Add bar chart
+
     st.subheader("Pass/Fail Distribution")
     chart_data = pd.DataFrame({
         "Result": ["Pass", "Fail"],
@@ -129,9 +118,7 @@ try:
 except (FileNotFoundError, pd.errors.EmptyDataError):
     st.info("No test results logged yet. Run a few tests first.")
 
-# ------------------------------
-# REPORT DOWNLOAD
-# ------------------------------
+
 if os.path.exists("test_results.csv"):
     with open("test_results.csv", "r", encoding="utf-8", errors="replace") as f:
         st.download_button(
